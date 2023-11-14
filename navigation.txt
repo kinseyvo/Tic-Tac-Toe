@@ -1,0 +1,7 @@
+Tic-Tac-Toe Page Navigation:
+1. App.js
+2. Home.js
+3. Board.js
+4. Leaderboard.js
+5. Settings.js
+6. About.js
