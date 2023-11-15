@@ -11,7 +11,7 @@ buildscript {
         ndkVersion = "23.1.7779620"
 
         // manually added
-        //kotlinVersion = "1.6.0"
+        kotlinVersion = "1.7.10"
     }
     repositories {
         google()

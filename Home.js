@@ -2,12 +2,29 @@ import React, { useState } from 'react';
 import AppContext from './AppContext';
 
 import { StyleSheet, View, Button, Text, TextInput } from 'react-native';
-import {Picker} from '@react-native-picker/picker';
+import DropDownPicker from 'react-native-dropdown-picker';
+//import {Picker} from '@react-native-picker/picker';
 
 const Home = ({route, navigation}) => {
     const context = React.useContext(AppContext);
 
-    const existingUsernames = ['Player 1', 'Player 2', 'User 1', 'User 2', 'Batman', 'Joker', 'Prof', 'Student'];
+    const [openPlayer1, setOpenPlayer1] = useState(false);
+    const [valuePlayer1, setValuePlayer1] = useState(null);
+    const [openPlayer2, setOpenPlayer2] = useState(false);
+    const [valuePlayer2, setValuePlayer2] = useState(null);
+
+    const [items, setItems] = useState([
+        {label: 'Player 1', value: 'Player 1'},
+        {label: 'Player 2', value: 'Player 2'},
+        {label: 'User 1', value: 'User 1'},
+        {label: 'User 2', value: 'User 2'},
+        {label: 'Batman', value: 'Batman'},
+        {label: 'Joker', value: 'Joker'},
+        {label: 'Prof', value: 'Prof'},
+        {label: 'Student', value: 'Student'},
+    ]);
+
+    //const existingUsernames = ['Player 1', 'Player 2', 'User 1', 'User 2', 'Batman', 'Joker', 'Prof', 'Student'];
 
     const handleSettingsPress = () => {
         navigation.navigate('Settings');
@@ -30,16 +47,18 @@ const Home = ({route, navigation}) => {
                 <View style={{ flex: 1 }}>
                     {/* Left Side */}
                     <Text style={styles.label}>Select or Enter Player 1's Name:</Text>
-                    <Picker
-                        style={styles.textInput}
-                        selectedValue={context.player1Name}
-                        onValueChange={(text) => context.setPlayer1Name(text)}
-                    >
-                        <Picker.Item label="Select..." value="" />
-                        {existingUsernames.map((username) => (
-                            <Picker.Item key={username} label={username} value={username} />
-                        ))}
-                    </Picker>
+                    <DropDownPicker
+                        open={openPlayer1}
+                        value={valuePlayer1}
+                        items={items}
+                        setOpen={setOpenPlayer1}
+                        setValue={(selectedValue) => {
+                            setValuePlayer1(selectedValue);
+                            context.setPlayer1Name(selectedValue);
+                        }}
+                        setItems={setItems}
+                        placeholder='Select a name'
+                    />
                     <TextInput
                         style={styles.textInput}
                         value={context.player1Name}
@@ -51,16 +70,18 @@ const Home = ({route, navigation}) => {
                 <View style={{ flex: 1 }}>
                     {/* Right Side */}
                     <Text style={styles.label}>Select or Enter Player 2's Name:</Text>
-                    <Picker
-                        style={styles.textInput}
-                        selectedValue={context.player2Name}
-                        onValueChange={(text) => context.setPlayer2Name(text)}
-                    >
-                        <Picker.Item label="Select..." value="" />
-                        {existingUsernames.map((username) => (
-                            <Picker.Item key={username} label={username} value={username} />
-                        ))}
-                    </Picker>
+                    <DropDownPicker
+                        open={openPlayer2}
+                        value={valuePlayer2}
+                        items={items}
+                        setOpen={setOpenPlayer2}
+                        setValue={(selectedValue) => {
+                            setValuePlayer2(selectedValue);
+                            context.setPlayer2Name(selectedValue);
+                        }}
+                        setItems={setItems}
+                        placeholder='Select a name'
+                    />
                     <TextInput
                         style={styles.textInput}
                         placeholder="Player 2"
@@ -143,6 +164,12 @@ const styles = StyleSheet.create({
         width: 1,
         height: '100%',
         backgroundColor: 'black',
+    },
+    textInputItem: {
+        justifyContent: 'flex-start',
+    },
+    textInputDropDown: {
+        backgroundColor: '#fafafa',
     },
   });
 
